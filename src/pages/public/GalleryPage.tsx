@@ -2,17 +2,20 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ZoomIn } from 'lucide-react';
 import { SectionHeading } from '@/components/ui/index';
-import { mockGallery } from '@/data/mockData';
+import { useGallery } from '@/hooks/useApi';
 
 const categories = ['All', 'Makeup', 'Hair Care', 'Skin Care', 'Nail Care', 'Spa', 'Bridal'];
 
 const GalleryPage: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState('All');
   const [lightbox, setLightbox] = useState<string | null>(null);
+  const { gallery, loading, error } = useGallery();
+
+  if (loading) return <div className="py-32 text-center">Loading gallery...</div>;
 
   const filtered = activeCategory === 'All'
-    ? mockGallery
-    : mockGallery.filter(img => img.category === activeCategory);
+    ? gallery
+    : gallery.filter(img => img.category === activeCategory);
 
   return (
     <>

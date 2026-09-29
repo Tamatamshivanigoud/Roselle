@@ -3,10 +3,14 @@ import { motion } from 'framer-motion';
 import { Plus, Edit, Trash2, Search } from 'lucide-react';
 import { Card, Badge, StarRating } from '@/components/ui/index';
 import { Button } from '@/components/ui/Button';
-import { mockServices } from '@/data/mockData';
+import { useServices } from '@/hooks/useServices';
 
 const AdminServices: React.FC = () => {
   const [search, setSearch] = useState('');
+  const { services: mockServices, loading, error } = useServices();
+
+  if (loading) return <div className="py-32 text-center">Loading services...</div>;
+
   const filtered = mockServices.filter(s =>
     s.name.toLowerCase().includes(search.toLowerCase()) ||
     s.category.toLowerCase().includes(search.toLowerCase())

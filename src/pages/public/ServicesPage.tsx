@@ -4,7 +4,7 @@ import { Search, Filter, Clock, Star, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { SectionHeading, StarRating, Card, Badge } from '@/components/ui/index';
 import { Button } from '@/components/ui/Button';
-import { mockServices } from '@/data/mockData';
+import { useServices } from '@/hooks/useServices';
 import type { ServiceCategory } from '@/types';
 
 const categories: ServiceCategory[] = ['Hair Care', 'Skin Care', 'Makeup', 'Spa', 'Nail Care', 'Bridal'];
@@ -12,8 +12,12 @@ const categories: ServiceCategory[] = ['Hair Care', 'Skin Care', 'Makeup', 'Spa'
 const ServicesPage: React.FC = () => {
   const [search, setSearch] = useState('');
   const [activeCategory, setActiveCategory] = useState<string>('All');
+  const { services, loading, error } = useServices();
 
-  const filtered = mockServices.filter(s => {
+  if (loading) return <div className="py-32 text-center">Loading services...</div>;
+  if (error) return <div className="py-32 text-center text-red-500">Error loading services</div>;
+
+  const filtered = services.filter(s => {
     const matchesSearch = s.name.toLowerCase().includes(search.toLowerCase()) ||
       s.description.toLowerCase().includes(search.toLowerCase());
     const matchesCategory = activeCategory === 'All' || s.category === activeCategory;

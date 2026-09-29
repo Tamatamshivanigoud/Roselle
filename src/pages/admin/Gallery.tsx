@@ -3,9 +3,11 @@ import { motion } from 'framer-motion';
 import { Upload, Trash2, Plus } from 'lucide-react';
 import { Card } from '@/components/ui/index';
 import { Button } from '@/components/ui/Button';
-import { mockGallery } from '@/data/mockData';
+import { useGallery } from '@/hooks/useApi';
 
 const AdminGallery: React.FC = () => {
+  const { gallery: mockGallery, loading } = useGallery();
+  if (loading) return <div>Loading...</div>;
   return (
     <div className="space-y-5">
       <div className="flex items-center justify-between">

@@ -4,7 +4,8 @@ import { CheckCircle, ArrowRight, User, Calendar, Clock, CreditCard, Sparkles } 
 import { Card, StarRating } from '@/components/ui/index';
 import { Button } from '@/components/ui/Button';
 import { Select } from '@/components/ui/Input';
-import { mockServices, mockBeauticians, timeSlots } from '@/data/mockData';
+import { mockBeauticians, timeSlots } from '@/data/mockData';
+import { useServices } from '@/hooks/useServices';
 import type { ServiceCategory } from '@/types';
 
 const categories: ServiceCategory[] = ['Hair Care', 'Skin Care', 'Makeup', 'Spa', 'Nail Care', 'Bridal'];
@@ -26,6 +27,10 @@ const BookAppointment: React.FC = () => {
     category: '', serviceId: '', beauticianId: '', date: '', timeSlotId: '', notes: ''
   });
   const [confirmed, setConfirmed] = useState(false);
+  const { services: mockServices, loading, error } = useServices();
+
+  if (loading) return <div className="py-32 text-center">Loading services...</div>;
+  if (error) return <div className="py-32 text-center text-red-500">Error loading services</div>;
 
   const selectedService = mockServices.find(s => s.id === booking.serviceId);
   const selectedBeautician = mockBeauticians.find(b => b.id === booking.beauticianId);

@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { ArrowRight, Sparkles, CheckCircle, MapPin, Star } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { SectionHeading, Card } from '@/components/ui/index';
-import { mockServices } from '@/data/mockData';
+import { useServices } from '@/hooks/useServices';
 
 // Global responsive container classes
 const containerClasses = "max-w-[1440px] mx-auto px-4 md:px-6 xl:px-10";
@@ -57,8 +57,13 @@ const Hero: React.FC = () => (
 );
 
 const Services: React.FC = () => {
+  const { services, loading, error } = useServices();
+  
   // Use 4 services for 4-column desktop layout
-  const featured = mockServices.slice(0, 4);
+  const featured = services.slice(0, 4);
+
+  if (loading) return <div className="py-20 text-center">Loading services...</div>;
+  if (error) return <div className="py-20 text-center text-red-500">Error loading services</div>;
   return (
     <section className="py-16 md:py-20 lg:py-24 bg-white scroll-mt-20">
       <div className={containerClasses}>

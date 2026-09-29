@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Sparkles } from 'lucide-react';
 import { SectionHeading, StarRating, Card } from '@/components/ui/index';
-import { mockBeauticians } from '@/data/mockData';
+import { useBeauticians } from '@/hooks/useApi';
 
 const values = [
   { icon: '💎', title: 'Excellence', desc: 'We pursue the highest standards in every treatment and interaction.' },
@@ -19,6 +19,10 @@ const achievements = [
 ];
 
 const AboutPage: React.FC = () => {
+  const { beauticians: mockBeauticians, loading } = useBeauticians();
+
+  if (loading) return <div className="py-32 text-center">Loading...</div>;
+
   return (
     <>
       {/* Hero */}

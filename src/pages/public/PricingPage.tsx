@@ -4,9 +4,15 @@ import { Check, Star, Crown, Sparkles } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { SectionHeading, Card } from '@/components/ui/index';
 import { Button } from '@/components/ui/Button';
-import { mockPackages, mockServices } from '@/data/mockData';
+import { mockPackages } from '@/data/mockData';
+import { useServices } from '@/hooks/useServices';
 
 const PricingPage: React.FC = () => {
+  const { services: mockServices, loading, error } = useServices();
+
+  if (loading) return <div className="py-32 text-center">Loading pricing...</div>;
+  if (error) return <div className="py-32 text-center text-red-500">Error loading pricing</div>;
+
   return (
     <>
       {/* Hero */}

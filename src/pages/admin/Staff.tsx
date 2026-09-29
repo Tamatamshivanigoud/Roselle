@@ -2,11 +2,13 @@ import React from 'react';
 import { Card } from '@/components/ui/index';
 import { Button } from '@/components/ui/Button';
 import { Plus } from 'lucide-react';
-import { mockBeauticians } from '@/data/mockData';
+import { useBeauticians } from '@/hooks/useApi';
 import { StarRating } from '@/components/ui/index';
 import { motion } from 'framer-motion';
 
 const AdminStaff: React.FC = () => {
+  const { beauticians: mockBeauticians, loading } = useBeauticians();
+  if (loading) return <div>Loading...</div>;
   return (
     <div className="space-y-5">
       <div className="flex items-center justify-between">
